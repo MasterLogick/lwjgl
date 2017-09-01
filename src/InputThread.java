@@ -35,7 +35,7 @@ public class InputThread extends Thread {
             // If we're pressing the "down" key decrease our speed
 
             if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-                m.put("KX",0.5f);
+                m.put("KX", 0.5f);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
                 m.put("KX", -0.5f);
