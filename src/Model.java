@@ -1,9 +1,12 @@
-import org.newdawn.slick.opengl.CompositeImageData;
 import org.newdawn.slick.opengl.Texture;
 
-import java.io.*;
-import java.util.*;
-import java.util.regex.Pattern;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Scanner;
+import java.util.Vector;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -21,7 +24,7 @@ public class Model {
         // int a;
         BufferedReader bf = new BufferedReader(new InputStreamReader(file));
         String s = null;
-        String face = null;
+        String face = "";
         do {
             ret = false;
             aa = true;
@@ -63,24 +66,26 @@ public class Model {
                     e.printStackTrace();
                 }
             }
-            //------ before tex cord
-            while (!s.startsWith("vt ")) {
-                try {
-                    s = bf.readLine();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            if (this.texture != null) {
+                //------ before tex cord
+                while (!s.startsWith("vt ")) {
+                    try {
+                        s = bf.readLine();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-            //------ tex cord read
-            while (s.startsWith("vt ")) {
-                s = new StringBuilder(s).deleteCharAt(0).deleteCharAt(0).deleteCharAt(0).toString();
-                scan = new Scanner(s);
-                scan.useDelimiter(" ");
-                texCords.add(new Float[]{Float.parseFloat(scan.next()), Float.parseFloat(scan.next()), Float.parseFloat(scan.next())});
-                try {
-                    s = bf.readLine();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                //------ tex cord read
+                while (s.startsWith("vt ")) {
+                    s = new StringBuilder(s).deleteCharAt(0).deleteCharAt(0).deleteCharAt(0).toString();
+                    scan = new Scanner(s);
+                    scan.useDelimiter(" ");
+                    texCords.add(new Float[]{Float.parseFloat(scan.next()), Float.parseFloat(scan.next()), Float.parseFloat(scan.next())});
+                    try {
+                        s = bf.readLine();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             //----- before face
@@ -95,7 +100,7 @@ public class Model {
             //----- face read
             while (s.startsWith("f ")) {
                 s = new StringBuilder(s).deleteCharAt(0).deleteCharAt(0).toString();
-                s.trim();
+                s=s.trim();
                 //System.out.println(s);
                 scan = new Scanner(s);
                 scan.useDelimiter(" ");
@@ -139,31 +144,52 @@ public class Model {
     }
 
     public void draw() {
-        texture.bind();
-        glBegin(GL_QUADS);
-        for (int i = 0; i < faces.size()/*&&(i<InputThread.c)*/; i++) {
-            //System.out.println(i);
+        if (texture != null) {
+
+
+            texture.bind();
+            glBegin(GL_QUADS);
+            for (int i = 0; i < faces.size()/*&&(i<InputThread.c)*/; i++) {
+                //System.out.println(i);
             /*System.out.println(texCords.get(faces.get(i)[1])[0]+" "+ texCords.get(faces.get(i)[1])[1]+" "+ texCords.get(faces.get(i)[1])[2]);
             System.out.println(vectors.get(faces.get(i)[0])[0]+" "+ vectors.get(faces.get(i)[0])[1]+" "+ vectors.get(faces.get(i)[0])[2]);*/
-            glTexCoord3f(texCords.get(faces.get(i)[1])[0], texCords.get(faces.get(i)[1])[1], texCords.get(faces.get(i)[1])[2]);
-            glVertex3f(vectors.get(faces.get(i)[0])[0], vectors.get(faces.get(i)[0])[1], vectors.get(faces.get(i)[0])[2]);
-        }
-        glEnd();
-        if (triangles != null) {
-            //System.out.println(triangles.size());
-            glBegin(GL_TRIANGLES);
-            for (int i = 0; i < triangles.size()/*&&(i<InputThread.c)*/; i++) {
-                glTexCoord3f(texCords.get(triangles.get(i)[1])[0], texCords.get(triangles.get(i)[1])[1], texCords.get(triangles.get(i)[1])[2]);
-                glVertex3f(vectors.get(triangles.get(i)[0])[0], vectors.get(triangles.get(i)[0])[1], vectors.get(triangles.get(i)[0])[2]);
-
+                glTexCoord3f(texCords.get(faces.get(i)[1])[0], texCords.get(faces.get(i)[1])[1], texCords.get(faces.get(i)[1])[2]);
+                glVertex3f(vectors.get(faces.get(i)[0])[0], vectors.get(faces.get(i)[0])[1], vectors.get(faces.get(i)[0])[2]);
             }
             glEnd();
-        }
+            if (triangles != null) {
+                //System.out.println(triangles.size());
+                glBegin(GL_TRIANGLES);
+                for (int i = 0; i < triangles.size()/*&&(i<InputThread.c)*/; i++) {
+                    glTexCoord3f(texCords.get(triangles.get(i)[1])[0], texCords.get(triangles.get(i)[1])[1], texCords.get(triangles.get(i)[1])[2]);
+                    glVertex3f(vectors.get(triangles.get(i)[0])[0], vectors.get(triangles.get(i)[0])[1], vectors.get(triangles.get(i)[0])[2]);
+
+                }
+                glEnd();
+            }
 //        System.out.println("texture: "+texCords.get(faces.get(InputThread.c)[1])[0]+" "+ texCords.get(faces.get(InputThread.c)[1])[1]+" "+ texCords.get(faces.get(InputThread.c)[1])[2]);
 //        System.out.println("vector: "+vectors.get(faces.get(InputThread.c)[0])[0]+" "+ vectors.get(faces.get(InputThread.c)[0])[1]+" "+ vectors.get(faces.get(InputThread.c)[0])[2]);
+        } else {
+            glBegin(GL_QUADS);
+            for (int i = 0; i < faces.size()/*&&(i<InputThread.c)*/; i++) {
+                glVertex3f(vectors.get(faces.get(i)[0])[0], vectors.get(faces.get(i)[0])[1], vectors.get(faces.get(i)[0])[2]);
+            }
+            glEnd();
+            if (triangles != null) {
+                //System.out.println(triangles.size());
+                glBegin(GL_TRIANGLES);
+                for (int i = 0; i < triangles.size()/*&&(i<InputThread.c)*/; i++) {
+                    glVertex3f(vectors.get(triangles.get(i)[0])[0], vectors.get(triangles.get(i)[0])[1], vectors.get(triangles.get(i)[0])[2]);
+
+                }
+                glEnd();
+            }
+        }
     }
 
     public void release() {
-        texture.release();
+        if (texture != null) {
+            texture.release();
+        }
     }
 }

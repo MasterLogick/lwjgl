@@ -15,7 +15,6 @@ import static org.lwjgl.util.glu.GLU.*;
 
 public class Main {
     static boolean isCloseRequested = false;
-
     public static void main(String[] argv) {
         // Initialization code Display
         try {
@@ -27,8 +26,10 @@ public class Main {
             Display.destroy();
             System.exit(1);
         }
+        Model arrow = null;
         Model m = null;
-        try {
+        try { 
+            arrow = new Model(new FileInputStream(new File("C:\\3d max\\obj\\arrow.obj")),null);
             m = new Model(new FileInputStream(new File("C:\\3d max\\obj\\testrgl.obj")), TextureLoader.getTexture("PNG", new FileInputStream(new File("C:\\3d max\\obj\\water-wall-clipart-20.jpg"))));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -92,14 +93,15 @@ public class Main {
             glVertex3i(0,0,0); // Bottom-left
             glEnd();*/
             m.draw();
-            glBegin(GL_QUADS);
+            arrow.draw();
+            /*glBegin(GL_QUADS);
             glColor3f(50, 90, 0);
             glVertex3i(-500, -70, 500);
             glVertex3i(500, -70, 500);
             glVertex3i(500, -70, -500);
             glVertex3i(-500, -70, -500);
             glEnd();
-            glClear(GL_COLOR);
+            glClear(GL_COLOR);*/
 
             Display.update();
             Display.sync(60);
