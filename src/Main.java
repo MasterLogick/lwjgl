@@ -28,8 +28,8 @@ public class Main {
         Model arrow = null;
         Model m = null;
         try { 
-            arrow = new Model(new FileInputStream(new File("C:\\3d max\\obj\\arrow.obj")),null);
-            m = new Model(new FileInputStream(new File("C:\\3d max\\obj\\testrgl.obj")), TextureLoader.getTexture("PNG", new FileInputStream(new File("C:\\3d max\\obj\\water-wall-clipart-20.jpg"))));
+            arrow = new Model(new FileInputStream(new File("C:\\lwjgl\\obj\\arrow.obj")),null);
+            m = new Model(new FileInputStream(new File("C:\\lwjgl\\obj\\testrgl.obj")), TextureLoader.getTexture("PNG", new FileInputStream(new File("C:\\lwjgl\\obj\\water-wall-clipart-20.jpg"))));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
