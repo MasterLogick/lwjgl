@@ -2,7 +2,6 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
-import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
 import java.io.File;
@@ -11,7 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.util.glu.GLU.*;
+import static org.lwjgl.util.glu.GLU.gluPerspective;
 
 public class Main {
     static boolean isCloseRequested = false;
@@ -67,20 +66,6 @@ public class Main {
             //mouse.arotate();
             mouse.rotate();
             input.move();
-            /*glBegin(GL_QUADS);
-            glTexCoord3f(0,0,0);
-            glVertex3f(0, 0, 0);//ul
-            glTexCoord3f(1,0,0);
-            glVertex3f(20, 0, 0);//ur
-            glTexCoord3f(1,1,0);
-            glVertex3f(20, 20, 0);//bl
-            glTexCoord3f(0,1,0);
-            glVertex3f(0, 20, 0);//br
-            glVertex3f(-100,0,-100);
-            glVertex3f(100,0,-100);
-            glVertex3f(100,0,100);
-            glVertex3f(-100,0,100);
-            glEnd();*/
            /* glBegin(GL_QUADS);
             //glColor3f(255,0,0);
             glTexCoord3f(0, 0,0);
