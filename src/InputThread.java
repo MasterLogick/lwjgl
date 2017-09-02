@@ -32,8 +32,6 @@ public class InputThread extends Thread {
             if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
                 m.put("KY", -0.5f);
             }
-            // If we're pressing the "down" key decrease our speed
-
             if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
                 m.put("KX", 0.5f);
             }
@@ -57,33 +55,17 @@ public class InputThread extends Thread {
                     e.printStackTrace();
                 }
             }*/
-
-            //glTranslatef(x, y, z);
-            /*z = 0;
-            x = 0;
-            y = 0;*/
         }
     }
 
     public void move() {
         for (Map.Entry e : m.entrySet()) {
-            /*switch (MouseThread.vector){
-                case 0:
-
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-            }*/
-
             switch ((String) e.getKey()) {
                 case "KX":
                     switch (MouseThread.vector) {
                         case 0:
-                            glTranslatef((float) (e.getValue())*(1-((float)Math.abs(MouseThread.angleY)/90)), 0, (float) e.getValue()*(((float) MouseThread.angleY)/90));
+
+                            glTranslatef(((float) e.getValue()), 0, 0);
                             break;
                         case 1:
                             glTranslatef(0, 0, (float) e.getValue());
@@ -92,7 +74,7 @@ public class InputThread extends Thread {
                             glTranslatef(-(float) e.getValue(), 0, 0);
                             break;
                         case 3:
-                            glTranslatef(-(float) e.getValue()*(MouseThread.angleY/90), 0, -(float) e.getValue()*(1-Math.abs(MouseThread.angleY)/90));
+                            glTranslatef(0, 0, -(float) e.getValue());
                             break;
                     }
                     break;
@@ -102,7 +84,9 @@ public class InputThread extends Thread {
                 case "KZ":
                     switch (MouseThread.vector) {
                         case 0:
-                            glTranslatef(0, 0, (float) e.getValue());
+                            System.out.println((((float) e.getValue()) * (1 - (-ProgramMath.sign(MouseThread.angleY)) * ((float) MouseThread.angleY) / 90f)) + " " + (((float) e.getValue()) * ((90f - (ProgramMath.sign(MouseThread.angleY)) * Math.abs((float) MouseThread.angleY)) / 90)));
+                            System.out.println();
+                            glTranslatef((((float) e.getValue()) * (1 - (-ProgramMath.sign(MouseThread.angleY)) * ((float) MouseThread.angleY) / 90f)), 0, (((float) e.getValue()) * ((90f - (ProgramMath.sign(MouseThread.angleY)) * Math.abs((float) MouseThread.angleY)) / 90)));
                             break;
                         case 1:
                             glTranslatef(-(float) e.getValue(), 0, 0);
