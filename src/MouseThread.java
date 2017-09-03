@@ -76,6 +76,9 @@ public class MouseThread extends Thread {
 
     public void rotate() {
         System.out.println(angleX + " " + angleY +/* " " + rotateX + " " + rotateY +*/ " " + vector);
+//        System.out.println("sin: "+Math.sin(Math.toRadians(1)));
+        System.out.println((float) Math.sin(Math.toRadians(MouseThread.angleY))+" "+ (float) Math.cos(Math.toRadians(MouseThread.angleY)));
+
         /*prevAngleX = angleX;
         prevAngleY = angleY;*/
        /* int dx, dy;

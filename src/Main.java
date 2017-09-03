@@ -77,7 +77,7 @@ public class Main {
             glTexCoord3f(0, 1,0);
             glVertex3i(0,0,0); // Bottom-left
             glEnd();*/
-            m.draw();
+            //m.draw();
             arrow.draw();
             /*glBegin(GL_QUADS);
             glColor3f(50, 90, 0);

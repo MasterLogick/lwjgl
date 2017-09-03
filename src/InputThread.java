@@ -67,16 +67,16 @@ public class InputThread extends Thread {
                     switch (MouseThread.vector) {
                         case 0:
 
-                            glTranslatef(value, 0, 0);
+                            glTranslatef(Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.angleY)), 0, Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.angleY)));
                             break;
                         case 1:
-                            glTranslatef(0, 0, value);
+                            glTranslatef(-Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.angleY)), 0, Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.angleY)));
                             break;
                         case 2:
-                            glTranslatef(-value, 0, 0);
+                            glTranslatef(-Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.angleY)), 0, -Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.angleY)));
                             break;
                         case 3:
-                            glTranslatef(0, 0, -value);
+                            glTranslatef(Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.angleY)), 0, -Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.angleY)));
                             break;
                     }
                     break;
@@ -85,19 +85,20 @@ public class InputThread extends Thread {
                     break;
                 case "KZ":
                     switch (MouseThread.vector) {
-                        case 0:
-                            /*System.out.println(-value*((float)MouseThread.angleY/90)+" "+value*(1f-(Math.abs((float)MouseThread.angleY)/90f)));
+                        case 0:/*
+                            System.out.println();
+                            System.out.println(((float)MouseThread.angleY/90)+" "+0+" "+value+" "+(1f-(Math.abs((float)MouseThread.angleY)/90f)));
                             System.out.println();*/
-                            glTranslatef(/*value*((float)MouseThread.angleY/90)*/0,0,value/*(1f-(Math.abs((float)MouseThread.angleY)/90f))*/);
+                            glTranslatef(-Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.angleY)),0, Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.angleY)));
                             break;
                         case 1:
-                            glTranslatef(-value, 0, 0);
+                            glTranslatef(-Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.angleY)), 0, -Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.angleY)));
                             break;
                         case 2:
-                            glTranslatef(0, 0, -value);
+                            glTranslatef(Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.angleY)), 0, -Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.angleY)));
                             break;
                         case 3:
-                            glTranslatef(value, 0, 0);
+                            glTranslatef(Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.angleY)), 0, Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.angleY)));
                             break;
                     }
 
