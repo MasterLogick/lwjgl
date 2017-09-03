@@ -14,10 +14,10 @@ import static org.lwjgl.util.glu.GLU.gluPerspective;
 
 public class Main {
     static boolean isCloseRequested = false;
+
     public static void main(String[] argv) {
-        // Initialization code Display
         try {
-            Display.setDisplayMode(new DisplayMode(800, 600));
+            Display.setDisplayMode(new DisplayMode(GameStats.getWindowWidth(), GameStats.getWindowHeight()));
             Display.setTitle("Three Dee Demo");
             Display.create();
         } catch (LWJGLException e) {
@@ -27,44 +27,33 @@ public class Main {
         }
         Model arrow = null;
         Model m = null;
-        try { 
-            arrow = new Model(new FileInputStream(new File("C:\\lwjgl\\obj\\arrow.obj")),null);
+        try {
+            arrow = new Model(new FileInputStream(new File("C:\\lwjgl\\obj\\arrow.obj")), null);
             m = new Model(new FileInputStream(new File("C:\\lwjgl\\obj\\testrgl.obj")), TextureLoader.getTexture("PNG", new FileInputStream(new File("C:\\lwjgl\\obj\\water-wall-clipart-20.jpg"))));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // Initialization code OpenGL
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-
-        // Create a new perspective with 30 degree angle (field of view), 640 / 480 aspect ratio, 0.001f zNear, 100 zFar
-        // Note: 	+x is to the right
-        //     		+y is to the top
-        //			+z is to the camera
-        gluPerspective(30f, 800 / 600, 0.001f, 700);
+        gluPerspective(30f, GameStats.getWindowWidth() / GameStats.getWindowHeight(), 0.001f, 700);
         glMatrixMode(GL_MODELVIEW);
         InputThread input = new InputThread();
         MouseThread mouse = new MouseThread();
-
-
-        // To make sure the points closest to the camera are shown in front of the points that are farther away.
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glEnable(GL_TEXTURE_2D);
         glTranslatef(0, -55, -250);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        Mouse.setCursorPosition(640 / 2, 480 / 2);
+        Mouse.setCursorPosition(GameStats.getWindowCenterX(), GameStats.getWindowCenterY());
         input.start();
         mouse.start();
         Mouse.setClipMouseCoordinatesToWindow(true);
         //Thread input = new InputThread();
         while (!Display.isCloseRequested() && !isCloseRequested) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            //mouse.arotate();
-            mouse.rotate();
             input.move();
            /* glBegin(GL_QUADS);
             //glColor3f(255,0,0);
@@ -77,7 +66,7 @@ public class Main {
             glTexCoord3f(0, 1,0);
             glVertex3i(0,0,0); // Bottom-left
             glEnd();*/
-            //m.draw();
+            m.draw();
             arrow.draw();
             /*glBegin(GL_QUADS);
             glColor3f(50, 90, 0);
@@ -87,7 +76,7 @@ public class Main {
             glVertex3i(-500, -70, -500);
             glEnd();
             glClear(GL_COLOR);*/
-
+            mouse.rotate();
             Display.update();
             Display.sync(60);
         }

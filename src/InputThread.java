@@ -105,6 +105,7 @@ public class InputThread extends Thread {
                     MouseThread.angleX = 0;
                     MouseThread.angleY = 0;
                     glLoadIdentity();
+                    Mouse.setCursorPosition(GameStats.getWindowCenterX(),GameStats.getWindowCenterY());
                     break;
             }
         }
