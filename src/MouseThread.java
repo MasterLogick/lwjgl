@@ -98,21 +98,25 @@ public class MouseThread extends Thread {
                 glRotatef(rotateX, 0, 0, 1);
                 break;
         }*/
+        glRotatef(MouseThread.angleX,1,0,0);
         switch (vector) {
             case 0:
                 glRotatef(-rotateX, 1, 0, 0);
+                glRotatef(angleY+rotateY,0,1,0);
                 break;
             case 1:
                 glRotatef(-rotateX, 0, 0, 1);
+                glRotatef(90+angleY+rotateY,0,1,0);
                 break;
             case 2:
                 glRotatef(rotateX, 1, 0, 0);
+                glRotatef(180-angleY<180?180-angleY:180+angleY,0,1,0);
                 break;
             case 3:
                 glRotatef(rotateX, 0, 0, 1);
+                glRotatef(-90-angleY+rotateY,0,1,0);
                 break;
         }
-        glRotatef(rotateY, 0, 1, 0);
         rotateX = 0;
         rotateY = 0;
         /*}

@@ -55,6 +55,9 @@ public class Main {
         while (!Display.isCloseRequested() && !isCloseRequested) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             input.move();
+            glLoadIdentity();
+            mouse.rotate();
+            input.moveBack();
            /* glBegin(GL_QUADS);
             //glColor3f(255,0,0);
             glTexCoord3f(0, 0,0);
@@ -76,13 +79,12 @@ public class Main {
             glVertex3i(-500, -70, -500);
             glEnd();
             glClear(GL_COLOR);*/
-            mouse.rotate();
+
             Display.update();
             Display.sync(60);
         }
         m.release();
         Display.destroy();
-        // Exit the JVM (for some reason this lingers on Macintosh)
         System.exit(0);
     }
 
