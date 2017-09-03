@@ -85,10 +85,7 @@ public class InputThread extends Thread {
                     break;
                 case "KZ":
                     switch (MouseThread.vector) {
-                        case 0:/*
-                            System.out.println();
-                            System.out.println(((float)MouseThread.angleY/90)+" "+0+" "+value+" "+(1f-(Math.abs((float)MouseThread.angleY)/90f)));
-                            System.out.println();*/
+                        case 0:
                             glTranslatef(-Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.angleY)),0, Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.angleY)));
                             break;
                         case 1:
