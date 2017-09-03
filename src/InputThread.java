@@ -21,22 +21,22 @@ public class InputThread extends Thread {
         }
         while (!Display.isCloseRequested() && !Main.isCloseRequested) {
             if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-                m.put("KZ", 0.5f);
+                m.put("KZ", 1f);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-                m.put("KZ", -0.5f);
+                m.put("KZ", -1f);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-                m.put("KY", 0.5f);
+                m.put("KY", 1f);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-                m.put("KY", -0.5f);
+                m.put("KY", -1f);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-                m.put("KX", 0.5f);
+                m.put("KX", 1f);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-                m.put("KX", -0.5f);
+                m.put("KX", -1f);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_F7)) {
                 Mouse.setCursorPosition(640 / 2, 480 / 2);
@@ -59,43 +59,45 @@ public class InputThread extends Thread {
     }
 
     public void move() {
+        float value;
         for (Map.Entry e : m.entrySet()) {
+            value=(float)e.getValue();
             switch ((String) e.getKey()) {
                 case "KX":
                     switch (MouseThread.vector) {
                         case 0:
 
-                            glTranslatef(((float) e.getValue()), 0, 0);
+                            glTranslatef(value, 0, 0);
                             break;
                         case 1:
-                            glTranslatef(0, 0, (float) e.getValue());
+                            glTranslatef(0, 0, value);
                             break;
                         case 2:
-                            glTranslatef(-(float) e.getValue(), 0, 0);
+                            glTranslatef(-value, 0, 0);
                             break;
                         case 3:
-                            glTranslatef(0, 0, -(float) e.getValue());
+                            glTranslatef(0, 0, -value);
                             break;
                     }
                     break;
                 case "KY":
-                    glTranslatef(0, (float) e.getValue(), 0);
+                    glTranslatef(0, value, 0);
                     break;
                 case "KZ":
                     switch (MouseThread.vector) {
                         case 0:
-                            System.out.println((((float) e.getValue()) * (1 - (-ProgramMath.sign(MouseThread.angleY)) * ((float) MouseThread.angleY) / 90f)) + " " + (((float) e.getValue()) * ((90f - (ProgramMath.sign(MouseThread.angleY)) * Math.abs((float) MouseThread.angleY)) / 90)));
-                            System.out.println();
-                            glTranslatef((((float) e.getValue()) * (1 - (-ProgramMath.sign(MouseThread.angleY)) * ((float) MouseThread.angleY) / 90f)), 0, (((float) e.getValue()) * ((90f - (ProgramMath.sign(MouseThread.angleY)) * Math.abs((float) MouseThread.angleY)) / 90)));
+                            /*System.out.println(-value*((float)MouseThread.angleY/90)+" "+value*(1f-(Math.abs((float)MouseThread.angleY)/90f)));
+                            System.out.println();*/
+                            glTranslatef(/*value*((float)MouseThread.angleY/90)*/0,0,value/*(1f-(Math.abs((float)MouseThread.angleY)/90f))*/);
                             break;
                         case 1:
-                            glTranslatef(-(float) e.getValue(), 0, 0);
+                            glTranslatef(-value, 0, 0);
                             break;
                         case 2:
-                            glTranslatef(0, 0, -(float) e.getValue());
+                            glTranslatef(0, 0, -value);
                             break;
                         case 3:
-                            glTranslatef((float) e.getValue(), 0, 0);
+                            glTranslatef(value, 0, 0);
                             break;
                     }
 
