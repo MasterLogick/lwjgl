@@ -5,7 +5,7 @@ import static org.lwjgl.opengl.GL11.glRotatef;
 
 public class MouseThread extends Thread {
     static int vector = 0;
-    static float rotateX = 0, angleX = 0, angleY = 0/*, prevAngleX = 0, prevAngleY = 0*/;
+    static float /*rotateX = 0,*/ angleX = 0, angleY = 0/*, prevAngleX = 0, prevAngleY = 0*/,centerX=0,centerY=0,centerZ=0;
     static boolean vertical = false;
     //private HashMap<Integer, Integer> m = new HashMap<>();
 
@@ -25,15 +25,15 @@ public class MouseThread extends Thread {
             dy = Mouse.getX()-y;
             x = Mouse.getY();
             y = Mouse.getX();
-            rotateX += dx*0.5;
+//            rotateX += dx*0.5;
             angleX += dx*0.5;
             angleY += dy*0.5;
-            if (rotateX > 180) {
+            /*if (rotateX > 180) {
                 rotateX -= 360;
             }
             if (rotateX < -180) {
                 rotateX += 360;
-            }
+            }*/
             while (angleY > 45) {
                 vector += 1;
                 angleY -= 90;
@@ -54,57 +54,39 @@ public class MouseThread extends Thread {
             if (angleX < -180) {
                 angleX += 360;
             }
-            /*if (angleY >= -45 && angleY < 45)
-                vector = 0;
-            if (angleY >= 45 && angleY < 135)
-                vector = 1;
-            if (angleY >= 135 ^ angleY < -135)
-                vector = 2;
-            if (angleY >= -135 && angleY < -45)
-                vector = 3;*/
+
         }
     }
-
-   /* public void arotate() {
-        glRotatef(-prevAngleX, 1, 0, 0);
-        glRotatef(-prevAngleY, 0, 1, 0);
-        prevAngleX = 0;
-        prevAngleY = 0;
-    }*/
-
     public void rotate() {
-        System.out.println(angleX + " " + angleY + " " + vector);
-        /*prevAngleX = angleX;
-        prevAngleY = angleY;*/
-       /* int dx, dy;
-        for (Map.Entry entry : m.entrySet()) {
-            dx= (int) entry.getKey();
-            dy= (int) entry.getValue();*/
-        //System.out.println(vector);
-
-        /*switch (vector) {
+//        centerY+=Math.
+        switch (vector){
             case 0:
-                glRotatef(-rotateX, 1, 0, 0);
+            centerZ+=Math.cos(Math.toRadians(angleY));
+            centerX+=Math.sin(Math.toRadians(angleY));
                 break;
             case 1:
-                glRotatef(-rotateX, 0, 0, 1);
+                centerZ-=Math.sin(Math.toRadians(angleY));
+                centerX+=Math.cos(Math.toRadians(angleY));
                 break;
             case 2:
-                glRotatef(rotateX, 1, 0, 0);
+                centerZ-=Math.cos(Math.toRadians(angleY));
+                centerX-=Math.sin(Math.toRadians(angleY));
                 break;
             case 3:
-                glRotatef(rotateX, 0, 0, 1);
+                centerZ+=Math.sin(Math.toRadians(angleY));
+                centerX-=Math.cos(Math.toRadians(angleY));
                 break;
-        }*/
+        }
+        /*System.out.println(angleX + " " + angleY + " " + vector);
         glRotatef(MouseThread.angleX, 1, 0, 0);
         switch (vector) {
             case 0:
                 glRotatef(-rotateX, 1, 0, 0);
-                glRotatef(angleY/*+rotateY*/, 0, 1, 0);
+                glRotatef(angleY, 0, 1, 0);
                 break;
             case 1:
                 glRotatef(-rotateX, 0, 0, 1);
-                glRotatef(90 + angleY/*+rotateY*/, 0, 1, 0);
+                glRotatef(90 + angleY, 0, 1, 0);
                 break;
             case 2:
                 glRotatef(rotateX, 1, 0, 0);
@@ -112,11 +94,10 @@ public class MouseThread extends Thread {
                 break;
             case 3:
                 glRotatef(rotateX, 0, 0, 1);
-                glRotatef(-90 - angleY/*+rotateY*/, 0, 1, 0);
+                glRotatef(-90 - angleY, 0, 1, 0);
                 break;
         }
-        rotateX = 0;
-        /*}
-        m.clear();*/
+        rotateX = 0;*/
+        }
     }
 }
