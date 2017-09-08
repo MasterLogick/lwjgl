@@ -9,7 +9,7 @@ import static org.lwjgl.opengl.GL11.glLoadIdentity;
 import static org.lwjgl.opengl.GL11.glTranslatef;
 
 public class InputThread extends Thread {
-    float x=0,y=0,z=0;
+    static float x=0,y=0,z=0;
     private HashMap<String, Float> m = new HashMap<>();
     static int c = 0;
 

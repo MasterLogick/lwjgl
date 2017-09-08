@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.util.glu.GLU.gluLookAt;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
 
 public class Main {
@@ -54,10 +55,12 @@ public class Main {
         //Thread input = new InputThread();
         while (!Display.isCloseRequested() && !isCloseRequested) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            input.move();
+//            System.out.println(InputThread.x+" "+InputThread.y+" "+InputThread.z);
             glLoadIdentity();
+            input.move();
+            gluLookAt(InputThread.x,InputThread.y,InputThread.z,0,0,0,InputThread.x,InputThread.y+10,InputThread.z);
             mouse.rotate();
-            input.moveBack();
+            //input.moveBack();
            /* glBegin(GL_QUADS);
             //glColor3f(255,0,0);
             glTexCoord3f(0, 0,0);
