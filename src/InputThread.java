@@ -9,9 +9,12 @@ import static org.lwjgl.opengl.GL11.glLoadIdentity;
 import static org.lwjgl.opengl.GL11.glTranslatef;
 
 public class InputThread extends Thread {
+    int ctrl=0;
     static float x=0,y=0,z=0;
     private HashMap<String, Float> m = new HashMap<>();
     static int c = 0;
+    static float centerx=0,centery=0,centerz=10;
+    static float upx=0,upy=10,upz=0;
 
     @Override
     public void run() {
@@ -21,29 +24,134 @@ public class InputThread extends Thread {
             e.printStackTrace();
         }
         while (!Display.isCloseRequested() && !Main.isCloseRequested) {
+            if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)){
+                ctrl=(ctrl+1)%3;
+                System.out.println(ctrl);
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
             if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-                m.put("KZ", 1f);
+                switch (ctrl){
+                    case 0:
+                        z+=1;
+                        break;
+                    case 1:
+                        centerz+=1;
+                        break;
+                    case 2:
+                        upz+=1;
+                        break;
+                }
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                //m.put("KZ", 1f);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-                m.put("KZ", -1f);
+                switch (ctrl){
+                    case 0:
+                        z-=1;
+                        break;
+                    case 1:
+                        centerz-=1;
+                        break;
+                    case 2:
+                        upz-=1;
+                        break;
+                }
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                //m.put("KZ", -1f);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-                m.put("KY", 1f);
+                switch (ctrl){
+                    case 0:
+                        y-=1;
+                        break;
+                    case 1:
+                        centery-=1;
+                        break;
+                    case 2:
+                        upy-=1;
+                        break;
+                }
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                //m.put("KY", 1f);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-                m.put("KY", -1f);
+                switch (ctrl){
+                    case 0:
+                        y+=1;
+                        break;
+                    case 1:
+                        centery+=1;
+                        break;
+                    case 2:
+                        upy+=1;
+                        break;
+                }
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                //m.put("KY", -1f);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-                m.put("KX", 1f);
+                switch (ctrl){
+                    case 0:
+                        x-=1;
+                        break;
+                    case 1:
+                        centerx-=1;
+                        break;
+                    case 2:
+                        upx-=1;
+                        break;
+                }
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                //m.put("KX", 1f);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-                m.put("KX", -1f);
+                switch (ctrl){
+                    case 0:
+                        x+=1;
+                        break;
+                    case 1:
+                        centerx+=1;
+                        break;
+                    case 2:
+                        upx+=1;
+                        break;
+                }
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                //m.put("KX", -1f);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_F7)) {
                 Mouse.setCursorPosition(640 / 2, 480 / 2);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_R)) {
-                m.put("RELOAD", 0f);
+                //m.put("RELOAD", 0f);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
                 Main.exit();
