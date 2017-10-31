@@ -57,9 +57,9 @@ public class Main {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 //            System.out.println(InputThread.x+" "+InputThread.y+" "+InputThread.z);
             glLoadIdentity();
-            input.move();
-            gluLookAt(InputThread.x,InputThread.y,InputThread.z,0,0,0,InputThread.x,InputThread.y+10,InputThread.z);
+            gluLookAt(InputThread.x,InputThread.y,InputThread.z,InputThread.x+MouseThread.centerX,InputThread.y+MouseThread.centerY,InputThread.z+MouseThread.centerZ,0,InputThread.y+100,0);
             mouse.rotate();
+            input.move();
             //input.moveBack();
            /* glBegin(GL_QUADS);
             //glColor3f(255,0,0);

@@ -1,11 +1,9 @@
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
-import static org.lwjgl.opengl.GL11.glRotatef;
-
 public class MouseThread extends Thread {
     static int vector = 0;
-    static float /*rotateX = 0,*/ angleX = 0, angleY = 0/*, prevAngleX = 0, prevAngleY = 0*/,centerX=0,centerY=0,centerZ=0;
+    static float /*rotateX = 0,*/ angleX = 0, angleY = 0/*, prevAngleX = 0, prevAngleY = 0*/, centerX = 0, centerY = 0, centerZ = 0;
     static boolean vertical = false;
     //private HashMap<Integer, Integer> m = new HashMap<>();
 
@@ -21,13 +19,13 @@ public class MouseThread extends Thread {
 //            m.put(Mouse.getDX(), Mouse.getDY());
             System.out.println(Mouse.getX() + " " + Mouse.getY());
             Mouse.poll();
-            dx = Mouse.getY()-x;
-            dy = Mouse.getX()-y;
+            dx = Mouse.getY() - x;
+            dy = Mouse.getX() - y;
             x = Mouse.getY();
             y = Mouse.getX();
 //            rotateX += dx*0.5;
-            angleX += dx*0.5;
-            angleY += dy*0.5;
+            angleX += dx * 0.5;
+            angleY += dy * 0.5;
             /*if (rotateX > 180) {
                 rotateX -= 360;
             }
@@ -57,24 +55,26 @@ public class MouseThread extends Thread {
 
         }
     }
+
     public void rotate() {
 //        centerY+=Math.
-        switch (vector){
+        centerY = (float)Math.sin(Math.toRadians(angleX));
+        switch (vector) {
             case 0:
-            centerZ+=Math.cos(Math.toRadians(angleY));
-            centerX+=Math.sin(Math.toRadians(angleY));
+                centerZ = (float) Math.cos(Math.toRadians(angleY));
+                centerX = (float) Math.sin(Math.toRadians(angleY));
                 break;
             case 1:
-                centerZ-=Math.sin(Math.toRadians(angleY));
-                centerX+=Math.cos(Math.toRadians(angleY));
+                centerZ = (float) -Math.sin(Math.toRadians(angleY));
+                centerX = (float) Math.cos(Math.toRadians(angleY));
                 break;
             case 2:
-                centerZ-=Math.cos(Math.toRadians(angleY));
-                centerX-=Math.sin(Math.toRadians(angleY));
+                centerZ = (float) -Math.cos(Math.toRadians(angleY));
+                centerX = (float) -Math.sin(Math.toRadians(angleY));
                 break;
             case 3:
-                centerZ+=Math.sin(Math.toRadians(angleY));
-                centerX-=Math.cos(Math.toRadians(angleY));
+                centerZ = (float) Math.sin(Math.toRadians(angleY));
+                centerX = (float) -Math.cos(Math.toRadians(angleY));
                 break;
         }
         /*System.out.println(angleX + " " + angleY + " " + vector);
@@ -98,6 +98,5 @@ public class MouseThread extends Thread {
                 break;
         }
         rotateX = 0;*/
-        }
     }
 }
