@@ -3,8 +3,9 @@ import org.lwjgl.opengl.Display;
 
 public class MouseThread extends Thread {
     static int vector = 0;
-    static float /*rotateX = 0,*/ angleX = 0, angleY = 0/*, prevAngleX = 0, prevAngleY = 0*/, centerX = 0, centerY = 0, centerZ = 0;
+    static float /*rotateX = 0,*/ verticalAngle = 0, horizontalAngle = 0/*, prevAngleX = 0, prevAngleY = 0*/, centerX = 0, centerY = 0, centerZ = 0;
     static boolean vertical = false;
+    static double calculatingAngleY = Math.atan(10);
     //private HashMap<Integer, Integer> m = new HashMap<>();
 
     @Override
@@ -17,86 +18,53 @@ public class MouseThread extends Thread {
         int dx, dy, x = Mouse.getY(), y = Mouse.getX();
         while (!Display.isCloseRequested() && !Main.isCloseRequested) {
 //            m.put(Mouse.getDX(), Mouse.getDY());
-            System.out.println(Mouse.getX() + " " + Mouse.getY());
+            //System.out.println(Mouse.getX() + " " + Mouse.getY());
             Mouse.poll();
             dx = Mouse.getY() - x;
             dy = Mouse.getX() - y;
             x = Mouse.getY();
             y = Mouse.getX();
 //            rotateX += dx*0.5;
-            angleX += dx * 0.5;
-            angleY += dy * 0.5;
-            /*if (rotateX > 180) {
-                rotateX -= 360;
+            verticalAngle += dx * 0.5;
+            horizontalAngle += dy * 0.5;
+
+            while (horizontalAngle > 45) {
+                vector =(vector+1)%4;
+                horizontalAngle -= 90;
             }
-            if (rotateX < -180) {
-                rotateX += 360;
-            }*/
-            while (angleY > 45) {
-                vector += 1;
-                angleY -= 90;
-                if (vector == 4) {
-                    vector = 0;
-                }
+            while (horizontalAngle < -45) {
+                vector =(vector-1)%4;
+                horizontalAngle += 90;
             }
-            while (angleY < -45) {
-                vector -= 1;
-                angleY += 90;
-                if (vector == -1) {
-                    vector = 3;
-                }
+            if (verticalAngle > 180) {
+                verticalAngle -= 360;
             }
-            if (angleX > 180) {
-                angleX -= 360;
-            }
-            if (angleX < -180) {
-                angleX += 360;
+            if (verticalAngle < -180) {
+                verticalAngle += 360;
             }
 
         }
     }
 
-    public void rotate() {
-//        centerY+=Math.
-        centerY = (float)Math.sin(Math.toRadians(angleX));
+    public void calc() {
+        centerY = (float)Math.sin(Math.toRadians(verticalAngle));
         switch (vector) {
             case 0:
-                centerZ = (float) Math.cos(Math.toRadians(angleY));
-                centerX = (float) Math.sin(Math.toRadians(angleY));
+                centerZ = (float) Math.cos(Math.toRadians(horizontalAngle));
+                centerX = (float) Math.sin(Math.toRadians(horizontalAngle));
                 break;
             case 1:
-                centerZ = (float) -Math.sin(Math.toRadians(angleY));
-                centerX = (float) Math.cos(Math.toRadians(angleY));
+                centerZ = (float) -Math.sin(Math.toRadians(horizontalAngle));
+                centerX = (float) Math.cos(Math.toRadians(horizontalAngle));
                 break;
             case 2:
-                centerZ = (float) -Math.cos(Math.toRadians(angleY));
-                centerX = (float) -Math.sin(Math.toRadians(angleY));
+                centerZ = (float) -Math.cos(Math.toRadians(horizontalAngle));
+                centerX = (float) -Math.sin(Math.toRadians(horizontalAngle));
                 break;
             case 3:
-                centerZ = (float) Math.sin(Math.toRadians(angleY));
-                centerX = (float) -Math.cos(Math.toRadians(angleY));
+                centerZ = (float) Math.sin(Math.toRadians(horizontalAngle));
+                centerX = (float) -Math.cos(Math.toRadians(horizontalAngle));
                 break;
         }
-        /*System.out.println(angleX + " " + angleY + " " + vector);
-        glRotatef(MouseThread.angleX, 1, 0, 0);
-        switch (vector) {
-            case 0:
-                glRotatef(-rotateX, 1, 0, 0);
-                glRotatef(angleY, 0, 1, 0);
-                break;
-            case 1:
-                glRotatef(-rotateX, 0, 0, 1);
-                glRotatef(90 + angleY, 0, 1, 0);
-                break;
-            case 2:
-                glRotatef(rotateX, 1, 0, 0);
-                glRotatef(180 - angleY < 180 ? 180 - angleY :  angleY-180, 0, 1, 0);
-                break;
-            case 3:
-                glRotatef(rotateX, 0, 0, 1);
-                glRotatef(-90 - angleY, 0, 1, 0);
-                break;
-        }
-        rotateX = 0;*/
     }
 }

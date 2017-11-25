@@ -58,7 +58,7 @@ public class Main {
 //            System.out.println(InputThread.x+" "+InputThread.y+" "+InputThread.z);
             glLoadIdentity();
             gluLookAt(InputThread.x,InputThread.y,InputThread.z,InputThread.x+MouseThread.centerX,InputThread.y+MouseThread.centerY,InputThread.z+MouseThread.centerZ,0,InputThread.y+100,0);
-            mouse.rotate();
+            mouse.calc();
             input.move();
             //input.moveBack();
            /* glBegin(GL_QUADS);

@@ -9,6 +9,7 @@ import static org.lwjgl.opengl.GL11.glLoadIdentity;
 import static org.lwjgl.opengl.GL11.glTranslatef;
 
 public class InputThread extends Thread {
+    final static double hypot = Math.hypot(10,1);
     int ctrl=0;
     static float x=0,y=0,z=0;
     private HashMap<String, Float> m = new HashMap<>();
@@ -176,23 +177,23 @@ public class InputThread extends Thread {
                     switch (MouseThread.vector) {
                         case 0:
                             //glTranslatef(Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.angleY)), 0, Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.angleY)));
-                            x+=Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.angleY));
-                            z+=Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.angleY));
+                            x+=Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.horizontalAngle));
+                            z+=Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.horizontalAngle));
                             break;
                         case 1:
                             //glTranslatef(-Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.angleY)), 0, Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.angleY)));
-                            x-=Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.angleY));
-                            z+=Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.angleY));
+                            x-=Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.horizontalAngle));
+                            z+=Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.horizontalAngle));
                             break;
                         case 2:
                             //glTranslatef(-Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.angleY)), 0, -Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.angleY)));
-                            x-=Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.angleY));
-                            z-=Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.angleY));
+                            x-=Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.horizontalAngle));
+                            z-=Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.horizontalAngle));
                             break;
                         case 3:
                             //glTranslatef(Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.angleY)), 0, -Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.angleY)));
-                            x+=Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.angleY));
-                            z-=Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.angleY));
+                            x+=Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.horizontalAngle));
+                            z-=Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.horizontalAngle));
                             break;
                     }
                     break;
@@ -204,40 +205,37 @@ public class InputThread extends Thread {
                     switch (MouseThread.vector) {
                         case 0:
                             //glTranslatef(-Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.angleY)),0, Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.angleY)));
-                            x-=Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.angleY));
-                            z+=Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.angleY));
+                            x-=Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.horizontalAngle));
+                            z+=Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.horizontalAngle));
                             break;
                         case 1:
                             //glTranslatef(-Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.angleY)), 0, -Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.angleY)));
-                            x-=Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.angleY));
-                            z-=Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.angleY));
+                            x-=Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.horizontalAngle));
+                            z-=Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.horizontalAngle));
                             break;
                         case 2:
                             //glTranslatef(Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.angleY)), 0, -Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.angleY)));
-                            x+=Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.angleY));
-                            z-=Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.angleY));
+                            x+=Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.horizontalAngle));
+                            z-=Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.horizontalAngle));
                             break;
                         case 3:
                             //glTranslatef(Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.angleY)), 0, Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.angleY)));
-                            x+=Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.angleY));
-                            z+=Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.angleY));
+                            x+=Math.signum(value)*(float) Math.sin(Math.toRadians(MouseThread.horizontalAngle));
+                            z+=Math.signum(value)*(float) Math.cos(Math.toRadians(MouseThread.horizontalAngle));
                             break;
                     }
 
                     break;
                 case "RELOAD":
                     MouseThread.vector = 0;
-                    MouseThread.angleX = 0;
-                    MouseThread.angleY = 0;
+                    MouseThread.verticalAngle = 0;
+                    MouseThread.horizontalAngle = 0;
                     glLoadIdentity();
                     Mouse.setCursorPosition(GameStats.getWindowCenterX(),GameStats.getWindowCenterY());
                     break;
             }
         }
         m.clear();
-    }
-    public void moveBack(){
-        glTranslatef(x,y,z);
     }
 }
 /*
