@@ -10,17 +10,17 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.util.glu.GLU.gluLookAt;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
 
 public class Main {
-    static boolean isCloseRequested = false;
+    static boolean isCloseRequested = true;
 
     public static void main(String[] argv) {
+        System.out.println(4%4);
         try {
             Display.setDisplayMode(new DisplayMode(GameStats.getWindowWidth(), GameStats.getWindowHeight()));
             Display.setTitle("Three Dee Demo");
-            Display.create();
+            Display.create();                           //WINDOW CREATING
         } catch (LWJGLException e) {
             e.printStackTrace();
             Display.destroy();
@@ -31,7 +31,7 @@ public class Main {
         try {
             arrow = new Model(new FileInputStream(new File("C:\\lwjgl\\obj\\arrow.obj")), null);
             m = new Model(new FileInputStream(new File("C:\\lwjgl\\obj\\testrgl.obj")), TextureLoader.getTexture("PNG", new FileInputStream(new File("C:\\lwjgl\\obj\\water-wall-clipart-20.jpg"))));
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {                                 //MODEL INIT
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -46,43 +46,21 @@ public class Main {
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glEnable(GL_TEXTURE_2D);
-        glTranslatef(0, -55, -250);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         Mouse.setCursorPosition(GameStats.getWindowCenterX(), GameStats.getWindowCenterY());
+
+        input.setDaemon(true);
+        mouse.setDaemon(true);
         input.start();
         mouse.start();
-        Mouse.setClipMouseCoordinatesToWindow(true);
-        //Thread input = new InputThread();
+        Mouse.setClipMouseCoordinatesToWindow(true);                                        //INIT CODE
+        isCloseRequested=false;
         while (!Display.isCloseRequested() && !isCloseRequested) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//            System.out.println(InputThread.x+" "+InputThread.y+" "+InputThread.z);
             glLoadIdentity();
-            gluLookAt(InputThread.x,InputThread.y,InputThread.z,InputThread.x+MouseThread.centerX,InputThread.y+MouseThread.centerY,InputThread.z+MouseThread.centerZ,0,InputThread.y+100,0);
-            mouse.calc();
-            input.move();
-            //input.moveBack();
-           /* glBegin(GL_QUADS);
-            //glColor3f(255,0,0);
-            glTexCoord3f(0, 0,0);
-            glVertex3i(0, 200,0); // Upper-left
-            glTexCoord3f(1, 0,0);
-            glVertex3i(200, 200,0); // Upper-right
-            glTexCoord3f(1, 1,0);
-            glVertex3i(200, 0,0); // Bottom-right
-            glTexCoord3f(0, 1,0);
-            glVertex3i(0,0,0); // Bottom-left
-            glEnd();*/
+//            gluLookAt();
             m.draw();
             arrow.draw();
-            /*glBegin(GL_QUADS);
-            glColor3f(50, 90, 0);
-            glVertex3i(-500, -70, 500);
-            glVertex3i(500, -70, 500);
-            glVertex3i(500, -70, -500);
-            glVertex3i(-500, -70, -500);
-            glEnd();
-            glClear(GL_COLOR);*/
-
             Display.update();
             Display.sync(60);
         }

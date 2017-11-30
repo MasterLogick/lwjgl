@@ -2,6 +2,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class InputThread extends Thread {
     public InputThread() {
@@ -9,10 +10,9 @@ public class InputThread extends Thread {
         addKeyEvent(Keyboard.KEY_S, () -> InputThread.moveBack());
         addKeyEvent(Keyboard.KEY_A, () -> InputThread.moveLeft());
         addKeyEvent(Keyboard.KEY_D, () -> InputThread.moveRight());
-        addKeyEvent(Keyboard.KEY_SPACE, () ->InputThread.moveUp());
-        addKeyEvent(Keyboard.KEY_LSHIFT,()->InputThread.moveDown());
+        addKeyEvent(Keyboard.KEY_SPACE, () -> InputThread.moveUp());
+        addKeyEvent(Keyboard.KEY_LSHIFT, () -> InputThread.moveDown());
     }
-
 
     static private HashMap<Integer, KeyEvent> map = new HashMap<>();
 
@@ -25,11 +25,8 @@ public class InputThread extends Thread {
         }
         while (!Display.isCloseRequested() && !Main.isCloseRequested) {
             Keyboard.poll();
-            if (Keyboard.next() && Keyboard.getEventKeyState()) {
-                KeyEvent e = map.get(Keyboard.getEventKey());
-                if (e != null) {
-                    e.keyEvent();
-                }
+            for (Map.Entry entry : map.entrySet()) {
+
             }
         }
     }
@@ -43,22 +40,32 @@ public class InputThread extends Thread {
     }*/
 
     public static void moveForward() {
-
+        System.out.println("moveF");
+        //todo
     }
 
     public static void moveBack() {
-
+        System.out.println("moveB");
+        //todo
     }
-    public static void moveLeft(){
 
+    public static void moveLeft() {
+        System.out.println("moveL");
+        //todo
     }
-    public static void moveRight(){
 
+    public static void moveRight() {
+        System.out.println("moveR");
+        //todo
     }
-    public static void moveUp(){
 
+    public static void moveUp() {
+        System.out.println("moveU");
+        //todo
     }
-    public static void moveDown(){
 
+    public static void moveDown() {
+        System.out.println("moveD");
+        //todo
     }
 }
