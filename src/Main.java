@@ -16,11 +16,21 @@ public class Main {
     static boolean isCloseRequested = true;
 
     public static void main(String[] argv) {
-        System.out.println(4%4);
         try {
-            Display.setDisplayMode(new DisplayMode(GameStats.getWindowWidth(), GameStats.getWindowHeight()));
+            for (DisplayMode m : Display.getAvailableDisplayModes()) {
+                System.out.println(m.toString() + " " + m.isFullscreenCapable());
+            }
+        } catch (LWJGLException e) {
+            e.printStackTrace();
+        }
+        try {
+            GameStats.setWindowHeight(Display.getAvailableDisplayModes()[41].getHeight());
+            GameStats.setWindowWidth(Display.getAvailableDisplayModes()[41].getWidth());
+            Display.setDisplayMode(/*new DisplayMode(GameStats.getWindowWidth(), GameStats.getWindowHeight())*/Display.getAvailableDisplayModes()[41]);
+            //Display.setFullscreen(true);
             Display.setTitle("Three Dee Demo");
-            Display.create();                           //WINDOW CREATING
+            Display.create();
+            //WINDOW CREATING
         } catch (LWJGLException e) {
             e.printStackTrace();
             Display.destroy();
@@ -40,8 +50,8 @@ public class Main {
         glLoadIdentity();
         gluPerspective(30f, GameStats.getWindowWidth() / GameStats.getWindowHeight(), 0.001f, 700);
         glMatrixMode(GL_MODELVIEW);
-        InputThread input = new InputThread();
-        MouseThread mouse = new MouseThread();
+        InputKeyboardThread input = new InputKeyboardThread();
+        InputMouseThread mouse = new InputMouseThread();
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -54,16 +64,17 @@ public class Main {
         input.start();
         mouse.start();
         Mouse.setClipMouseCoordinatesToWindow(true);                                        //INIT CODE
-        isCloseRequested=false;
-        while (!Display.isCloseRequested() && !isCloseRequested) {
+        isCloseRequested = false;
+        while (!isCloseRequested) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glLoadIdentity();
-//            gluLookAt();
+            InputKeyboardThread.gluLookAt();
             m.draw();
             arrow.draw();
             Display.update();
             Display.sync(60);
         }
+        exit();
         m.release();
         Display.destroy();
         System.exit(0);
