@@ -1,8 +1,20 @@
+import java.awt.*;
+
 public class GameStats {
     private static int WindowWidth = 800;
     private static int WindowHeight = 600;
     private static int WindowCenterX = WindowWidth / 2;
     private static int WindowCenterY = WindowHeight / 2;
+    private static final int ScreenWidth= MouseInfo.getPointerInfo().getDevice().getDisplayMode().getWidth();
+    private static final int ScreenHeight= MouseInfo.getPointerInfo().getDevice().getDisplayMode().getHeight();
+
+    public static int getScreenWidth() {
+        return ScreenWidth;
+    }
+
+    public static int getScreenHeight() {
+        return ScreenHeight;
+    }
 
     public static void setWindowWidth(int windowWidth) {
         WindowWidth = windowWidth;
