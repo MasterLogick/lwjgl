@@ -13,7 +13,7 @@ public class InputMouseThread extends Thread {
         }
         while (!Main.isCloseRequested) {
             isMouse = false;
-            System.out.println(Mouse.getX() +" "+Mouse.getY() + " "+ Orientation.getOrientationS());
+            System.out.println(Mouse.getX() + " " + Mouse.getY() + " " + Orientation.getOrientationS() + " " + Mouse.getDX() + Mouse.getDY());
             if ((GameStats.getScreenHeight() - 4) < Mouse.getY()) {
                 Mouse.setCursorPosition(Mouse.getX(), 5);
             } else if (4 > Mouse.getY()) {
@@ -31,8 +31,10 @@ public class InputMouseThread extends Thread {
                 dx = (int) (dx - Math.signum(dx) * 90);
             }
             if (Math.abs(dy) > 90) {
-                dy = (int) (Math.signum(dy) * 90);
+                dy = (int) (Math.signum(dy) * 89);
+
             }
+            Mouse.poll();
             xAxisRotate = dx;
             yAxisRotate = dy;
             switch (Orientation.getOrientation()) {
@@ -53,7 +55,7 @@ public class InputMouseThread extends Thread {
                     zPoint = (float) (Math.cos(Math.toRadians(yAxisRotate)) * Math.sin(Math.toRadians(xAxisRotate)));
                     break;
             }
-            yPoint = (float) (/*InputKeyboardThread.yPos+*/ Math.sin(Math.toRadians(yAxisRotate)));
+            yPoint = (float) (Math.sin(Math.toRadians(yAxisRotate)));
             isMouse = true;
             //System.out.println(yAxisRotate);
             //System.out.println(dx + " " + Orientation.getOrientationS());

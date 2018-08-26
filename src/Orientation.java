@@ -21,4 +21,15 @@ public enum Orientation {
     public static void setOrientation(int orientation) {
         ORIENTATION = Orientation.values()[orientation >= 0 ? orientation % 4 : 4 - Math.abs(orientation)];
     }
+
+    public static void inverse() {
+        if (ORIENTATION == NORTH) ORIENTATION = SOUTH;
+        else {
+            if (ORIENTATION == EAST) ORIENTATION = WEST;
+            else {
+                if (ORIENTATION == SOUTH) ORIENTATION = NORTH;
+                else ORIENTATION = EAST;
+            }
+        }
+    }
 }

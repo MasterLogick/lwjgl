@@ -17,6 +17,7 @@ public class Main {
     static boolean isCloseRequested = true;
 
     public static void main(String[] argv) {
+//        Mouse.poll();
 
         try {
             for (DisplayMode m : Display.getAvailableDisplayModes()) {
@@ -28,7 +29,7 @@ public class Main {
         try {
             //GameStats.setWindowHeight(Display.getAvailableDisplayModes()[58].getHeight());
             //GameStats.setWindowWidth(Display.getAvailableDisplayModes()[58].getWidth());
-            Display.setDisplayMode(/*new DisplayMode(GameStats.getWindowWidth(), GameStats.getWindowHeight())*/Display.getAvailableDisplayModes()[58]);
+            Display.setDisplayMode(/*new DisplayMode(GameStats.getWindowWidth(), GameStats.getWindowHeight())*/Display.getAvailableDisplayModes()[0]);
             //Display.setFullscreen(true);
             Display.setTitle("Three Dee Demo");
             Display.create();
