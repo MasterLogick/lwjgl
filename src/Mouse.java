@@ -25,7 +25,6 @@ public class Mouse {
     }
 
     public static double getDX() {
-        DX = 0;
         DX = prevX - Mouse.getX();
         prevX = Mouse.getX();
         /*DX = x - MouseInfo.getPointerInfo().getLocation().getX();
@@ -34,7 +33,6 @@ public class Mouse {
     }
 
     public static double getDY() {
-        DY = 0;
         DY = prevY - Mouse.getY();
         prevY = Mouse.getY();
         /*DY = y - MouseInfo.getPointerInfo().getLocation().y;

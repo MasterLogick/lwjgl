@@ -1,8 +1,8 @@
 import java.awt.*;
 
 public class GameStats {
-    private static int WindowWidth = 800;
-    private static int WindowHeight = 600;
+    private static int WindowWidth = 1000;
+    private static int WindowHeight = 900;
     private static int WindowCenterX = WindowWidth / 2;
     private static int WindowCenterY = WindowHeight / 2;
     private static final int ScreenWidth= MouseInfo.getPointerInfo().getDevice().getDisplayMode().getWidth();
@@ -49,16 +49,4 @@ public class GameStats {
     public static int getWindowCenterY() {
         return WindowCenterY;
     }
-/*
-
-    public static void setWindowHeight(int windowHeight) {
-        WindowHeight = windowHeight;
-        WindowCenterY=WindowHeight/2;
-    }
-
-    public static void setWindowWidth(int windowWidth) {
-        WindowWidth = windowWidth;
-        WindowCenterX=WindowWidth/2;
-    }
-*/
 }

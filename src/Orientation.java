@@ -2,7 +2,7 @@ public enum Orientation {
     NORTH, EAST, SOUTH, WEST;
     private static Orientation ORIENTATION = NORTH;
 
-    public static String getOrientationS() {
+    public static String getCurientOrientation() {
         return new String[]{"NORTH", "EAST", "SOUTH", "WEST"}[ORIENTATION.getOrientation()];
     }
 
