@@ -11,8 +11,6 @@ import java.io.IOException;
 
 import static org.lwjgl.util.glu.GLU.gluPerspective;
 
-//import org.lwjgl.input.Mouse;
-
 public class Main {
     static boolean isCloseRequested = true;
 
@@ -65,7 +63,7 @@ public class Main {
         //------------------------------INIT CODE
         isCloseRequested = false;
         while (!isCloseRequested) {
-            while (!(InputMouseThread.isMouseRead && InputKeyboardThread.isKeyboardRead)) {
+            while (!(InputMouseThread.isMouseDataRead && InputKeyboardThread.isKeyboardDataRead)) {
                 System.out.print("");
             }
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);

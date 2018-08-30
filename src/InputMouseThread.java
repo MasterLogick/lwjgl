@@ -4,7 +4,7 @@ public class InputMouseThread extends Thread {
     public static float xAxisRotate;
     public static float yAxisRotate;
     public static float xPoint = 0, yPoint = 0, zPoint = 0;
-    public static boolean isMouseRead;
+    public static boolean isMouseDataRead;
     private int dx = 0, dy = 0;
 
     @Override
@@ -12,8 +12,8 @@ public class InputMouseThread extends Thread {
         while (Main.isCloseRequested) {
         }
         while (!Main.isCloseRequested) {
-            isMouseRead = false;
-            if (InputKeyboardThread.is) {
+            isMouseDataRead = false;
+            if (InputKeyboardThread.isKeyboardDataRead) {
                 if ((GameStats.getScreenHeight() - 4) < Mouse.getY()) {
                     Mouse.setCursorPosition(Mouse.getX(), 5);
                 } else if (4 > Mouse.getY()) {
@@ -58,7 +58,7 @@ public class InputMouseThread extends Thread {
                 }
                 yPoint = (float) (Math.sin(Math.toRadians(yAxisRotate)));
             }
-            isMouseRead = true;
+            isMouseDataRead = true;
             try {
                 sleep(50);
             } catch (InterruptedException e) {

@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class InputKeyboardThread extends Thread {
     static float xPos = 0, yPos = 0, zPos = 0;
-    public static boolean isKeyboardRead;
+    public static boolean isKeyboardDataRead;
 
 
     public InputKeyboardThread() {
@@ -27,6 +27,7 @@ public class InputKeyboardThread extends Thread {
 
     static boolean is = true;
     static private HashMap<Integer, KeyHandler> map = new HashMap<>();
+
     @Override
     public void run() {
         try {
@@ -35,21 +36,19 @@ public class InputKeyboardThread extends Thread {
             Main.ERROR(e);
         }
         while (!Main.isCloseRequested) {
-            isKeyboardRead = false;
-//            Keyboard.poll();
+            isKeyboardDataRead = false;
             if (is)
                 for (Map.Entry<Integer, KeyHandler> entry : map.entrySet()) {
                     if (Keyboard.isKeyDown(entry.getKey())) {
-                        ((KeyHandler) entry.getValue()).keyHandler();
-                        //System.out.println("Key "+Keyboard.getKeyName(entry.getKey())+" has been pressed");
-                }
+                        (entry.getValue()).keyHandler();
+                    }
                 }
             else {
                 if (Keyboard.isKeyDown(Keyboard.KEY_1)) {
                     is = !is;
                 }
             }
-            isKeyboardRead = true;
+            isKeyboardDataRead = true;
             try {
                 this.sleep(50);
             } catch (InterruptedException e) {
