@@ -4,10 +4,6 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.util.glu.GLU;
-import org.newdawn.slick.opengl.TextureLoader;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 import static org.lwjgl.util.glu.GLU.gluPerspective;
 
@@ -30,19 +26,19 @@ public class Main {
         } catch (LWJGLException e) {
             Main.ERROR(e);
         }
-        new TestModel(Main.class.getResourceAsStream("cubes.obj"),
+        TestModel model = new TestModel(Main.class.getResourceAsStream("cubes.obj"),
                 Main.class.getResourceAsStream("wood-textures-seamless-hq-resolution.jpg"), "JPG", GL15.GL_STATIC_DRAW);
         Model arrow = null;
         Model m = null;
-        try {
-            ;
+        model.loadToVAO(new float[]{}, new float[]{}, new int[]{});
+        /*try {
             arrow = new Model(Main.class.getResourceAsStream("arrow.obj"), null);
             m = new Model(Main.class.getResourceAsStream("testrgl.obj"), TextureLoader.getTexture("JPG", Main.class.getResourceAsStream("k3unwj.jpg")));
         } catch (FileNotFoundException e) {         //---------------------------------MODEL INIT
             Main.ERROR(e);
         } catch (IOException e) {
             Main.ERROR(e);
-        }
+        }*/
         StaticShader staticShader = new StaticShader();
         InputKeyboardThread input = new InputKeyboardThread();
         InputMouseThread mouse = new InputMouseThread();
@@ -68,17 +64,18 @@ public class Main {
             }
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
             GL11.glLoadIdentity();
-            staticShader.start();
             GLU.gluLookAt(InputKeyboardThread.xPos, InputKeyboardThread.yPos, InputKeyboardThread.zPos, InputKeyboardThread.xPos + InputMouseThread.xPoint, InputKeyboardThread.yPos + InputMouseThread.yPoint, InputKeyboardThread.zPos + InputMouseThread.zPoint, 0, 1, 0);
-            m.draw();
-            arrow.draw();
+//            m.draw();
+//            arrow.draw();
+            staticShader.start();
+            model.render();
             staticShader.stop();
             Display.update();
             Display.sync(60);
         }
         exit();
         staticShader.cleanUp();
-        m.release();
+//        m.release();
         Display.destroy();
         System.exit(0);
     }
@@ -88,7 +85,7 @@ public class Main {
     }
 
     public static void ERROR(Exception e) {
-        e.printStackTrace();
+        Main.ERROR(e);
         Display.destroy();
         System.exit(1);
     }

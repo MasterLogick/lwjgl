@@ -17,7 +17,7 @@ public class TestModel {
     private List<Integer> vbos = new ArrayList<>();
     private int indicesNumber = 0;
     private int textureID = 0;
-    private int renderType = -1;
+    private int renderType;
 
     public TestModel(InputStream objFile, InputStream textureFile, String textureFileFormat, int renderType) {
         this.renderType = renderType;
@@ -41,35 +41,35 @@ public class TestModel {
         Vector<Float> normals = getFloatData("vn", file.split("\n"));
         Vector<Integer> indices = getIntegerData("f", file.split("\n"));
         float[] vertArr = new float[indices.size()];
-        float[] normArr = new float[indices.size()];
         float[] textureArr = new float[indices.size() / 3 * 2];
+        float[] normArr = new float[indices.size()];
         int[] indicesArr = new int[indices.size() / 3];
         for (int i = 0; i < indices.size(); i++) {
             switch (i % 3) {
                 case 0:
-                    vertArr[3 * i] = vertices.get(indices.get(i) * 3);
-                    vertArr[3 * i + 1] = vertices.get(indices.get(i) * 3 + 1);
-                    vertArr[3 * i + 2] = vertices.get(indices.get(i) * 3 + 2);
-                    indicesArr[i] = indices.get(i);
+                    vertArr[i] = vertices.get(indices.get(i) * 3);
+                    vertArr[i + 1] = vertices.get(indices.get(i) * 3 + 1);
+                    vertArr[i + 2] = vertices.get(indices.get(i) * 3 + 2);
+                    indicesArr[i / 3] = indices.get(i);
                     break;
                 case 1:
                     textureArr[i / 3 * 2] = textureCoords.get(indices.get(i) / 3 * 2);
                     textureArr[i / 3 * 2 + 1] = textureCoords.get(indices.get(i) / 3 * 2 + 1);
                     break;
                 case 2:
-                    normArr[3 * i] = normals.get(indices.get(i) * 3);
-                    normArr[3 * i + 1] = normals.get(indices.get(i) * 3 + 1);
-                    normArr[3 * i + 2] = normals.get(indices.get(i) * 3 + 2);
+                    normArr[i - 2] = normals.get(indices.get(i) * 3);
+                    normArr[i - 1] = normals.get(indices.get(i) * 3 + 1);
+                    normArr[i] = normals.get(indices.get(i) * 3 + 2);
                     break;
             }
         }
-        System.out.println();
+//        loadToVAO(vertArr,textureArr,indicesArr);
     }
 
     private Vector<Integer> getIntegerData(String type, String[] file) {
         Vector<Integer> retVal = new Vector<>();
         for (String s : file) {
-            if (s.length() < 28) {
+            if (s.length() < type.length() + 1) {
                 continue;
             }
             if (!s.substring(0, type.length() + 1).equals(type + " ")) {
@@ -85,7 +85,7 @@ public class TestModel {
     private Vector<Float> getFloatData(String type, String[] file) {
         Vector<Float> retVal = new Vector<>();
         for (String s : file) {
-            if (s.length() < 28) {
+            if (s.length() < type.length() + 1) {
                 continue;
             }
             if (!s.substring(0, type.length() + 1).equals(type + " ")) {
@@ -98,7 +98,7 @@ public class TestModel {
         return retVal;
     }
 
-    private void loadToVAO(float[] vertices, float[] textureCords, int[] indices) {
+    public void loadToVAO(float[] vertices, float[] textureCords, int[] indices) {
         indicesNumber = indices.length;
         vaoID = GL30.glGenVertexArrays();
         GL30.glBindVertexArray(vaoID);
