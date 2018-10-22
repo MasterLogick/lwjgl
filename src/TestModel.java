@@ -37,7 +37,7 @@ public class TestModel {
             e.printStackTrace();
         }
         Vector<Float> textureCoords = getFloatData("vt", file.split("\n"));
-        Vector<Float> vertices = getFloatData("v", file.split("\n"));
+        Vector<Float> vertices = getFloatData("map", file.split("\n"));
         Vector<Float> normals = getFloatData("vn", file.split("\n"));
         Vector<Integer> indices = getIntegerData("f", file.split("\n"));
         float[] vertArr = new float[indices.size()];
