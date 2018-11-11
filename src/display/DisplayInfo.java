@@ -1,6 +1,8 @@
+package display;
+
 import java.awt.*;
 
-public class GameStats {
+public class DisplayInfo {
     private static int WindowWidth = 1000;
     private static int WindowHeight = 900;
     private static int WindowCenterX = WindowWidth / 2;

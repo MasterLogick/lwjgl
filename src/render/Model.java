@@ -1,3 +1,5 @@
+package render;
+
 import org.newdawn.slick.opengl.Texture;
 
 import java.io.BufferedReader;
@@ -24,7 +26,6 @@ public class Model {
         String s;
         int i = 0;
         while ((s = bf.readLine()) != null) {
-            System.out.println(++i + " " + s);
             String[] arr = s.split(" ");
             switch (arr[0]) {
                 case "v":

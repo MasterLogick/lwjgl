@@ -1,3 +1,5 @@
+package render;
+
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.*;
 import org.newdawn.slick.opengl.TextureLoader;

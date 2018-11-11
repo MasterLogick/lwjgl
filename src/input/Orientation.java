@@ -1,3 +1,5 @@
+package input;
+
 public enum Orientation {
     NORTH, EAST, SOUTH, WEST;
     private static Orientation ORIENTATION = NORTH;
