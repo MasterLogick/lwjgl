@@ -34,7 +34,6 @@ public class Main {
         Model arrow = null;
         Model m = null;
         try {
-            ;
             arrow = new Model(Main.class.getResourceAsStream("arrow.obj"), null);
             m = new Model(Main.class.getResourceAsStream("testrgl.obj"), TextureLoader.getTexture("JPG", Main.class.getResourceAsStream("k3unwj.jpg")));
         } catch (FileNotFoundException e) {         //---------------------------------MODEL INIT
