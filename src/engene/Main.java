@@ -7,9 +7,9 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.glu.GLU;
 import org.newdawn.slick.opengl.TextureLoader;
-import render.MatrixUtil;
-import render.StaticShader;
+import render.Model;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -38,17 +38,17 @@ public class Main {
         }
 //        new TestModel(Main.class.getResourceAsStream("cubes.obj"),
 //                Main.class.getResourceAsStream("wood-textures-seamless-hq-resolution.jpg"), "JPG", GL15.GL_STATIC_DRAW);
-        /*Model arrow = null;
+        Model arrow = null;
         Model m = null;
         try {
-            arrow = new Model(Main.class.getResourceAsStream("arrow.obj"), null);
-            m = new Model(Main.class.getResourceAsStream("testrgl.obj"), TextureLoader.getTexture("JPG", Main.class.getResourceAsStream("wood-textures-seamless-hq-resolution.jpg")));
+            arrow = new Model(new FileInputStream("C:\\lwjgl\\obj\\arrow.obj"), null);
+            m = new Model(new FileInputStream("C:\\lwjgl\\obj\\testrgl.obj"), TextureLoader.getTexture("JPG", new FileInputStream("C:\\lwjgl\\obj\\wood-textures-seamless-hq-resolution.jpg")));
         } catch (FileNotFoundException e) {         //---------------------------------MODEL INIT
             Main.ERROR(e);
         } catch (IOException e) {
             Main.ERROR(e);
-        }*/
-        float[] vertices = {
+        }
+        /*float[] vertices = {
                 -2f, -2f, 0f,//v0
                 -2f, 2f, 0f,//v1
                 2f, 2f, 0f,//v2
@@ -70,19 +70,19 @@ public class Main {
             id = TextureLoader.getTexture("JPG", new FileInputStream("C:\\lwjgl\\obj\\wood-textures-seamless-hq-resolution.jpg")).getTextureID();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
         Renderer r = new Renderer();
-        RawModel model = new Loader().loadToVAO(vertices, texture, indices);
-        StaticShader staticShader = null;
-        try {
+        //RawModel model = new Loader().loadToVAO(vertices, texture, indices);
+        //StaticShader staticShader = null;
+        /*try {
             staticShader = new StaticShader();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
+        }*/
         InputReader.defaultInit();
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glLoadIdentity();
-        gluPerspective(30f, DisplayInfo.getWindowWidth() / DisplayInfo.getWindowHeight(), 0.00001f, 10000);
+        gluPerspective(30f, DisplayInfo.getWindowWidth() / DisplayInfo.getWindowHeight(), 0.001f, 1000);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glEnable(GL11.GL_BLEND);
@@ -93,21 +93,22 @@ public class Main {
         isCloseRequested = false;
         while (!isCloseRequested) {
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-//            GL11.glLoadIdentity();
+            GL11.glLoadIdentity();
             InputReader.readData();
-            staticShader.start();
-            staticShader.loadTransformationMatrix(MatrixUtil.createLookAtMatrix(InputReader.getXPos(), InputReader.getYPos(), InputReader.getZPos(), InputReader.getXPos() + InputReader.getXPoint(), InputReader.getYPos() + InputReader.getYPoint(), InputReader.getZPos() + InputReader.getZPoint(), 0, 1, 0));
-            r.render(model, id);
-//             m.draw();
+            //staticShader.start();
+            //staticShader.loadTransformationMatrix(MatrixUtil.createLookAtMatrix(InputReader.getXPos(), InputReader.getYPos(), InputReader.getZPos(), InputReader.getXPos() + InputReader.getXPoint(), InputReader.getYPos() + InputReader.getYPoint(), InputReader.getZPos() + InputReader.getZPoint(), 0, 1, 0));
+            //r.render(model, id);
+            GLU.gluLookAt(InputReader.getXPos(), InputReader.getYPos(), InputReader.getZPos(), InputReader.getXPos() + InputReader.getXPoint(), InputReader.getYPos() + InputReader.getYPoint(), InputReader.getZPos() + InputReader.getZPoint(), 0, 1, 0);
+            m.draw();
 //            arrow.draw();
 //            GL11.glTranslatef(InputReader.getXPos(), InputReader.getYPos(), InputReader.getZPos());
-            staticShader.stop();
+//            staticShader.stop();
             Display.update();
             Display.sync(60);
         }
         exit();
-        staticShader.cleanUp();
-        //m.release();
+//        staticShader.cleanUp();
+        m.release();
         Display.destroy();
         System.exit(0);
     }

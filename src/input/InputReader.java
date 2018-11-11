@@ -184,7 +184,7 @@ public class InputReader {
         }*/
         if (is)
             for (Map.Entry<Integer, KeyHandler> entry : map.entrySet()) {
-                System.out.println(getXPos() + " " + getYPos() + " " + getZPos());
+                //System.out.println(getXPos() + " " + getYPos() + " " + getZPos());
                 if (Keyboard.isKeyDown(entry.getKey())) {
                     (entry.getValue()).keyHandler();
                 }
