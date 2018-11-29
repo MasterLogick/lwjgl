@@ -49,11 +49,13 @@ public class InputReader {
         addKeyEvent(Keyboard.KEY_SPACE, InputReader::moveUp);
         addKeyEvent(Keyboard.KEY_LSHIFT, InputReader::moveDown);
         addKeyEvent(Keyboard.KEY_ESCAPE, () -> Main.exit());
+
         addKeyEvent(Keyboard.KEY_R, () -> {
             xPos = 0;
             yPos = 0;
             zPos = 0;
         });
+
         addKeyEvent(Keyboard.KEY_F, () -> {
             Player.isFlyEnable = !Player.isFlyEnable;
             try {
@@ -62,6 +64,7 @@ public class InputReader {
                 e.printStackTrace();
             }
         });
+
         addKeyEvent(Keyboard.KEY_1, () -> {
             is = !is;
             try {
@@ -69,6 +72,12 @@ public class InputReader {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        });
+
+        addKeyEvent(Keyboard.KEY_J, () -> {
+            Main.LightX = xPos;
+            Main.LightY = yPos;
+            Main.LightZ = zPos;
         });
     }
 

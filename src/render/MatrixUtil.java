@@ -1,8 +1,11 @@
 package render;
 
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.util.glu.Util;
 import org.lwjgl.util.vector.Matrix4f;
+
+import java.nio.FloatBuffer;
 
 public class MatrixUtil extends Util {
     static Matrix4f projectionMatrix = new Matrix4f();
@@ -58,5 +61,12 @@ public class MatrixUtil extends Util {
         matrix.m32 = matrix.m02 * eyex + matrix.m12 * eyey + matrix.m22 * eyez;
         matrix.m33 = matrix.m03 * eyex + matrix.m13 * eyey + matrix.m23 * eyez + 1;
         return matrix;
+    }
+
+    public static FloatBuffer asFlippedFloatBuffer(float... values) {
+        FloatBuffer buffer = BufferUtils.createFloatBuffer(values.length);
+        buffer.put(values);
+        buffer.flip();
+        return buffer;
     }
 }

@@ -9,9 +9,10 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 import org.newdawn.slick.opengl.TextureLoader;
+import render.MatrixUtil;
 import render.Model;
+import res.ResourseManager;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -19,7 +20,7 @@ import static org.lwjgl.util.glu.GLU.gluPerspective;
 
 public class Main {
     static boolean isCloseRequested = true;
-
+    public static float LightX = 0, LightY = 0, LightZ = 0;
     public static void main(String[] argv) {
         Mouse.poll();
         try {
@@ -36,49 +37,18 @@ public class Main {
         } catch (LWJGLException e) {
             Main.ERROR(e);
         }
-//        new TestModel(Main.class.getResourceAsStream("cubes.obj"),
-//                Main.class.getResourceAsStream("wood-textures-seamless-hq-resolution.jpg"), "JPG", GL15.GL_STATIC_DRAW);
         Model arrow = null;
         Model m = null;
+        Model bunny = null;
         try {
-            arrow = new Model(new FileInputStream("C:\\lwjgl\\obj\\arrow.obj"), null);
-            m = new Model(new FileInputStream("C:\\lwjgl\\obj\\testrgl.obj"), TextureLoader.getTexture("JPG", new FileInputStream("C:\\lwjgl\\obj\\wood-textures-seamless-hq-resolution.jpg")));
+            bunny = new Model(ResourseManager.getResourse("bunny.obj"), null);
+            arrow = new Model(ResourseManager.getResourse("arrow.obj"), null);
+            m = new Model(ResourseManager.getResourse("testrgl.obj"), TextureLoader.getTexture("JPG", ResourseManager.getResourse("wood-textures-seamless-hq-resolution.jpg")));
         } catch (FileNotFoundException e) {         //---------------------------------MODEL INIT
             Main.ERROR(e);
         } catch (IOException e) {
             Main.ERROR(e);
         }
-        /*float[] vertices = {
-                -2f, -2f, 0f,//v0
-                -2f, 2f, 0f,//v1
-                2f, 2f, 0f,//v2
-                2f, -2f, 0f,//v3
-
-        };
-        float[] texture = new float[]{
-                0, 0,
-                0, 1,
-                1, 1,
-                1, 0
-        };
-        int[] indices = {
-                0, 1, 3,//top left triangle (v0, v1, v3)
-                3, 1, 2//bottom right triangle (v3, v1, v2)
-        };
-        int id = 0;
-        try {
-            id = TextureLoader.getTexture("JPG", new FileInputStream("C:\\lwjgl\\obj\\wood-textures-seamless-hq-resolution.jpg")).getTextureID();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-        Renderer r = new Renderer();
-        //RawModel model = new Loader().loadToVAO(vertices, texture, indices);
-        //StaticShader staticShader = null;
-        /*try {
-            staticShader = new StaticShader();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }*/
         InputReader.defaultInit();
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glLoadIdentity();
@@ -88,26 +58,47 @@ public class Main {
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
+
+
+        GL11.glShadeModel(GL11.GL_SMOOTH);
+        GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL11.GL_LIGHT0);
+        GL11.glLightModel(GL11.GL_LIGHT_MODEL_AMBIENT, MatrixUtil.asFlippedFloatBuffer(0.05f, 0.05f, 0.05f, 1f));
+        GL11.glLight(GL11.GL_LIGHT0, GL11.GL_POSITION, MatrixUtil.asFlippedFloatBuffer(0, 0, 0, 1));
+        GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glCullFace(GL11.GL_BACK);
+        GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+        GL11.glColorMaterial(GL11.GL_FRONT, GL11.GL_DIFFUSE);
+
+
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         Mouse.setCursorPosition(DisplayInfo.getWindowCenterX(), DisplayInfo.getWindowCenterY());
         isCloseRequested = false;
         while (!isCloseRequested) {
+            GL11.glLight(GL11.GL_LIGHT0, GL11.GL_POSITION, MatrixUtil.asFlippedFloatBuffer(LightX, LightY, LightZ, 1));
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
             GL11.glLoadIdentity();
             InputReader.readData();
-            //staticShader.start();
-            //staticShader.loadTransformationMatrix(MatrixUtil.createLookAtMatrix(InputReader.getXPos(), InputReader.getYPos(), InputReader.getZPos(), InputReader.getXPos() + InputReader.getXPoint(), InputReader.getYPos() + InputReader.getYPoint(), InputReader.getZPos() + InputReader.getZPoint(), 0, 1, 0));
-            //r.render(model, id);
             GLU.gluLookAt(InputReader.getXPos(), InputReader.getYPos(), InputReader.getZPos(), InputReader.getXPos() + InputReader.getXPoint(), InputReader.getYPos() + InputReader.getYPoint(), InputReader.getZPos() + InputReader.getZPoint(), 0, 1, 0);
             m.draw();
-//            arrow.draw();
-//            GL11.glTranslatef(InputReader.getXPos(), InputReader.getYPos(), InputReader.getZPos());
-//            staticShader.stop();
+            /*GL11.glPushMatrix();
+            GL11.glTranslatef(10,0,0);
+            m.draw();
+            GL11.glPopMatrix();
+            GL11.glPushMatrix();
+            GL11.glTranslatef(20,0,0);
+            m.draw();
+            GL11.glPopMatrix();
+            GL11.glPushMatrix();
+            GL11.glTranslatef(30,0,0);
+            m.draw();
+            GL11.glPopMatrix();*/
+            arrow.draw();
+//            bunny.draw();
             Display.update();
             Display.sync(60);
         }
         exit();
-//        staticShader.cleanUp();
         m.release();
         Display.destroy();
         System.exit(0);
